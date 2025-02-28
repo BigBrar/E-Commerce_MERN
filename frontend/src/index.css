@@ -3,13 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: Outfit;
-}
 
 a.active hr{
     display:block
 }
+
+*{
+    /* font-family: Outfit; */
+}
+
 
 .prata-regular {
     font-family: "Prata", serif;
@@ -17,3 +19,9 @@ a.active hr{
     font-style: normal;
   }
   
+@media (max-width:640px){
+    a.active{
+        background-color: black;
+        color: white;
+    }
+}
