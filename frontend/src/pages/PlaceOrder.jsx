@@ -3,6 +3,7 @@ import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../../assets/assets'
 import { ShopContext } from '../context/ShopContext'
+import axios from 'axios'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
@@ -38,13 +39,38 @@ const PlaceOrder = () => {
             if (itemInfo){
               itemInfo.size = item
               itemInfo.quantity = cartItems[items][item]
+              orderItems.push(itemInfo)
             }
           }
         }
       }
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount()+delivery_fee
+      }
+
+      switch(method){
+
+        // api calls for cash on delivery
+        case 'cod':
+          const response = await axios.post(backendUrl+'/api/order/place',orderData,{headers:{token}})
+          if (response.data.success){
+            setCartItems({})
+            navigate('/orders')
+          }else{
+            toast.error(response.data.message)
+          }
+          break;
+
+        default:
+          break;
+      }
+      
 
     } catch (error) {
-      
+      console.log(error);
+      toast.success(error.message)
     }
   }
   return (

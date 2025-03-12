@@ -105,18 +105,15 @@ const ShopContextProvider = (props)=>{
     }
 
     const getCartAmount = ()=>{
-        console.log('get cart amount called!!!')
         let totalAmount = 0;
         for (const items in cartItems){
             let itemInfo = products.find((product)=> product._id === items);
-            console.log(itemInfo);
+            // console.log(itemInfo);
             for (const item in cartItems[items]){
                 try {
                     if (cartItems[items][item]>0){
-                        console.log('entered if statement');
                         
                         totalAmount += itemInfo.price * cartItems[items][item]
-                        console.log("total amount = ",totalAmount)
                     }
                 } catch (error) {
                     console.log(error)
@@ -131,7 +128,6 @@ const ShopContextProvider = (props)=>{
         try {
             const response = await axios.post(backendUrl+'/api/cart/get',{},{headers:{token}})
             if (response.data.success){
-                console.log("Cart data = ",response.data);
                 
                 setCartItems(response.data.cartData)
             }
